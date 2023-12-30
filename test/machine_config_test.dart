@@ -7,7 +7,7 @@ void main() {
     test('should correctly initialize with initial and states', () {
       const initial = 'someState';
       const states = {'someState': StateConfig()};
-      const config = MachineConfig(initial: initial, states: states);
+      final config = MachineConfig(initial: initial, states: states);
 
       expect(config.initial, equals(initial));
       expect(config.states, equals(states));
@@ -38,6 +38,17 @@ void main() {
     test('should throw when initialized from map without states', () {
       expect(() => MachineConfig.fromMap({'initial': 'someState'}),
           throwsA(isA<TypeError>()));
+    });
+
+    test('it throws when initialized from map with initial state not in states',
+        () {
+      const configMap = {
+        'initial': 'nonexistentState',
+        'states': {'someState': {}}
+      };
+
+      expect(() => MachineConfig.fromMap(configMap),
+          throwsA(isA<AssertionError>()));
     });
   });
 }

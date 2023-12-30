@@ -1,17 +1,20 @@
 import 'state_config.dart';
 
 class MachineConfig {
-  const MachineConfig({
+  MachineConfig({
     required this.initial,
     required this.states,
-  });
+  }) {
+    assert(states.containsKey(initial));
+  }
 
   final String initial;
   final Map<String, StateConfig> states;
 
-  MachineConfig.fromMap(map)
-      : initial = map['initial'] as String,
-        states = (map['states'] as Map).map(
+  factory MachineConfig.fromMap(map) => MachineConfig(
+        initial: map['initial'] as String,
+        states: (map['states'] as Map).map(
           (key, value) => MapEntry(key, StateConfig.fromMap(value)),
-        );
+        ),
+      );
 }
