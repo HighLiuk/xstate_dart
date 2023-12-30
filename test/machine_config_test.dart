@@ -26,7 +26,7 @@ void main() {
           MachineConfig.fromMap({'initial': initial, 'states': statesMap});
 
       expect(config.initial, equals(initial));
-      expect(config.states['someState']!.on!['event']!.target,
+      expect(config.states['someState']!.on['event']!.target,
           equals('someTarget'));
     });
 

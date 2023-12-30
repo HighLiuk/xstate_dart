@@ -17,13 +17,13 @@ void main() {
       };
       final config = StateConfig.fromMap({'on': onMap});
 
-      expect(config.on!['event']!.target, equals('someTarget'));
+      expect(config.on['event']!.target, equals('someTarget'));
     });
 
-    test('should return null on when initialized from map without on', () {
+    test('should return empty map on when initialized from map without on', () {
       final config = StateConfig.fromMap({});
 
-      expect(config.on, isNull);
+      expect(config.on, equals(const {}));
     });
   });
 }

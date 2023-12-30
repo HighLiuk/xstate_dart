@@ -16,7 +16,7 @@ void main() {
       final machine = Machine(config: configMap);
 
       expect(machine.config.initial, equals(initial));
-      expect(machine.config.states['someState']!.on!['event']!.target,
+      expect(machine.config.states['someState']!.on['event']!.target,
           equals('someTarget'));
     });
 

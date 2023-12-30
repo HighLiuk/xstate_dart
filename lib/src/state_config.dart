@@ -2,13 +2,14 @@ import 'transition_config.dart';
 
 class StateConfig {
   const StateConfig({
-    this.on,
+    this.on = const {},
   });
 
-  final Map<String, TransitionConfig>? on;
+  final Map<String, TransitionConfig> on;
 
   StateConfig.fromMap(map)
       : on = (map['on'] as Map?)?.map(
-          (key, value) => MapEntry(key, TransitionConfig.fromMap(value)),
-        );
+              (key, value) => MapEntry(key, TransitionConfig.fromMap(value)),
+            ) ??
+            const {};
 }
