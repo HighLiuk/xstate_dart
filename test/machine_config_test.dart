@@ -1,4 +1,5 @@
 import 'package:test/test.dart';
+import 'package:xstate_dart/src/consts.dart';
 import 'package:xstate_dart/src/machine_config.dart';
 import 'package:xstate_dart/src/state_config.dart';
 
@@ -10,7 +11,8 @@ void main() {
       final config = MachineConfig(initial: initial, states: states);
 
       expect(config.initial, equals(initial));
-      expect(config.states, equals(states));
+      expect(config.states, containsPair(notStarted, isA<StateConfig>()));
+      expect(config.states, containsPair(initial, isA<StateConfig>()));
     });
 
     test('should correctly initialize from map with initial and states', () {

@@ -1,10 +1,18 @@
+import 'consts.dart';
 import 'state_config.dart';
 
 class MachineConfig {
   MachineConfig({
     required this.initial,
-    required this.states,
-  }) {
+    required Map<String, StateConfig> states,
+  }) : states = {
+          notStarted: StateConfig.fromMap({
+            'on': {
+              init: initial,
+            },
+          }),
+          ...states,
+        } {
     assert(states.containsKey(initial));
   }
 
