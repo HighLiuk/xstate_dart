@@ -19,10 +19,19 @@ class MachineConfig {
   final String initial;
   final Map<String, StateConfig> states;
 
-  factory MachineConfig.fromMap(map) => MachineConfig(
-        initial: map['initial'] as String,
-        states: (map['states'] as Map).map(
-          (key, value) => MapEntry(key, StateConfig.fromMap(value)),
-        ),
-      );
+  factory MachineConfig.fromMap(map) {
+    assert(map is Map<String, dynamic>);
+    assert(map['initial'] is String);
+    assert(map['states'] is Map<String, dynamic>?);
+
+    final Map<String, dynamic> states = map['states'] ?? {};
+
+    return MachineConfig(
+      initial: map['initial'],
+      states: states.map((key, value) => MapEntry(
+            key,
+            StateConfig.fromMap(value),
+          )),
+    );
+  }
 }

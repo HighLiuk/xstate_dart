@@ -25,5 +25,30 @@ void main() {
 
       expect(config.on, equals(const {}));
     });
+
+    test('should throw when initialized from non-map', () {
+      const notAMap = 'notAMap';
+
+      expect(
+          () => StateConfig.fromMap(notAMap), throwsA(isA<AssertionError>()));
+    });
+
+    test(
+        'should throw when initialized from non-empty map that is not a Map<String, dynamic>',
+        () {
+      const notAMapOfStringToDynamic = {123: 'notAString'};
+
+      expect(() => StateConfig.fromMap(notAMapOfStringToDynamic),
+          throwsA(isA<AssertionError>()));
+    });
+
+    test(
+        'should throw when initialized from map with non-Map<String, dynamic> on',
+        () {
+      const mapWithNonMapOn = {'on': 'notAMap'};
+
+      expect(() => StateConfig.fromMap(mapWithNonMapOn),
+          throwsA(isA<AssertionError>()));
+    });
   });
 }

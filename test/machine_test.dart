@@ -42,12 +42,13 @@ void main() {
     });
 
     test('should throw when initialized with config without initial', () {
-      expect(() => Machine(config: {'states': {}}), throwsA(isA<TypeError>()));
+      expect(() => Machine(config: {'states': {}}),
+          throwsA(isA<AssertionError>()));
     });
 
     test('should throw when initialized with config without states', () {
       expect(() => Machine(config: {'initial': 'someState'}),
-          throwsA(isA<TypeError>()));
+          throwsA(isA<AssertionError>()));
     });
   });
 }

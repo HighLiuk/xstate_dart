@@ -86,5 +86,82 @@ void main() {
 
       expect(config.actions, equals([]));
     });
+
+    test('should throw when initialized from non-map and non-string', () {
+      const notAMapOrString = 123;
+
+      expect(() => TransitionConfig.fromMap(notAMapOrString),
+          throwsA(isA<AssertionError>()));
+    });
+
+    test('should throw when initialized from map with non-string target', () {
+      const mapWithNonStringTarget = {
+        'target': 123,
+      };
+
+      expect(() => TransitionConfig.fromMap(mapWithNonStringTarget),
+          throwsA(isA<AssertionError>()));
+    });
+
+    test(
+        'should throw when initialized from map with non-list and non-string guards',
+        () {
+      const mapWithNonListNonStringGuards = {
+        'target': 'someTarget',
+        'guards': 123,
+      };
+
+      expect(() => TransitionConfig.fromMap(mapWithNonListNonStringGuards),
+          throwsA(isA<AssertionError>()));
+    });
+
+    test(
+        'should throw when initialized from map with non-list and non-string actions',
+        () {
+      const mapWithNonListNonStringActions = {
+        'target': 'someTarget',
+        'actions': 123,
+      };
+
+      expect(() => TransitionConfig.fromMap(mapWithNonListNonStringActions),
+          throwsA(isA<AssertionError>()));
+    });
+
+    test('should correctly initialize from map with string guards', () {
+      const guards = 'someGuard';
+      final config = TransitionConfig.fromMap({
+        'target': 'someTarget',
+        'guards': guards,
+      });
+
+      expect(config.guards, equals([guards]));
+    });
+
+    test('should correctly initialize from map with string actions', () {
+      const actions = 'someAction';
+      final config = TransitionConfig.fromMap({
+        'target': 'someTarget',
+        'actions': actions,
+      });
+
+      expect(config.actions, equals([actions]));
+    });
+
+    test(
+        'should correctly initialize from string with string guards and actions',
+        () {
+      const target = 'someTarget';
+      const guards = 'someGuard';
+      const actions = 'someAction';
+      final config = TransitionConfig.fromMap({
+        'target': target,
+        'guards': guards,
+        'actions': actions,
+      });
+
+      expect(config.target, equals(target));
+      expect(config.guards, equals([guards]));
+      expect(config.actions, equals([actions]));
+    });
   });
 }
