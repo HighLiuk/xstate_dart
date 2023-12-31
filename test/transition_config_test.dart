@@ -30,5 +30,32 @@ void main() {
 
       expect(config.target, isNull);
     });
+
+    test('should correctly initialize with guards', () {
+      const guards = ['someGuard'];
+      final config = TransitionConfig(target: 'someTarget', guards: guards);
+
+      expect(config.guards, equals(guards));
+    });
+
+    test('should correctly initialize from map with guards', () {
+      const guards = ['someGuard'];
+      final config =
+          TransitionConfig.fromMap({'target': 'someTarget', 'guards': guards});
+
+      expect(config.guards, equals(guards));
+    });
+
+    test('should correctly initialize from map without guards', () {
+      final config = TransitionConfig.fromMap({'target': 'someTarget'});
+
+      expect(config.guards, equals([]));
+    });
+
+    test('should correctly initialize from string without guards', () {
+      final config = TransitionConfig.fromMap('someTarget');
+
+      expect(config.guards, equals([]));
+    });
   });
 }

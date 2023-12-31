@@ -23,7 +23,7 @@ class Interpreter {
       return false;
     }
 
-    return true;
+    return transition.guards.every((guard) => getGuard(guard)());
   }
 
   void _transition(TransitionConfig transition) {
@@ -45,4 +45,6 @@ class Interpreter {
 
   TransitionConfig? getTransition(String event) =>
       machine.config.states[state]?.on[event];
+  bool Function() getGuard(String guard) =>
+      machine.options.guards[guard] ?? () => false;
 }
