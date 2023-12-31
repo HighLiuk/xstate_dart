@@ -1,6 +1,7 @@
 import 'consts.dart';
 import 'machine.dart';
 import 'snapshot.dart';
+import 'transition_config.dart';
 
 class Interpreter {
   Interpreter({
@@ -15,13 +16,17 @@ class Interpreter {
 
   void start() => send(init);
 
-  void send(String event) {
-    final transition = machine.config.states[state]?.on[event];
+  bool can(String event) {
+    final transition = getTransition(event);
 
     if (transition == null) {
-      return;
+      return false;
     }
 
+    return true;
+  }
+
+  void _transition(TransitionConfig transition) {
     final target = transition.target;
     if (target == null) {
       return;
@@ -31,4 +36,13 @@ class Interpreter {
       state: target,
     ));
   }
+
+  void send(String event) {
+    if (can(event)) {
+      _transition(getTransition(event)!);
+    }
+  }
+
+  TransitionConfig? getTransition(String event) =>
+      machine.config.states[state]?.on[event];
 }

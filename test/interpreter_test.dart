@@ -80,4 +80,29 @@ void main() {
       expect(interpreter.state, equals('someState'));
     });
   });
+
+  test('should correctly determine if an event can be sent', () {
+    final machine = Machine(config: {
+      'initial': 'someState',
+      'states': {
+        'someState': {
+          'on': {
+            'event': {'target': 'someTarget'}
+          }
+        },
+        'someTarget': {}
+      }
+    });
+    final interpreter = Interpreter(machine: machine);
+
+    expect(interpreter.can('event'), isFalse);
+    expect(interpreter.can('nonexistentEvent'), isFalse);
+    expect(interpreter.can(init), isTrue);
+
+    interpreter.start();
+
+    expect(interpreter.can('event'), isTrue);
+    expect(interpreter.can('nonexistentEvent'), isFalse);
+    expect(interpreter.can(init), isFalse);
+  });
 }

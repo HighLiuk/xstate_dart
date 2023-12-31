@@ -5,6 +5,9 @@ class TransitionConfig {
 
   final String? target;
 
-  TransitionConfig.fromMap(map)
-      : target = map is String ? map : map['target'] as String?;
+  factory TransitionConfig.fromMap(map) => map is String
+      ? TransitionConfig(target: map)
+      : TransitionConfig(
+          target: map['target'] as String?,
+        );
 }
