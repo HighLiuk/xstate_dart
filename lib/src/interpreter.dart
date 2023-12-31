@@ -27,10 +27,11 @@ class Interpreter {
   }
 
   void _transition(TransitionConfig transition) {
-    final target = transition.target;
-    if (target == null) {
-      return;
+    for (final action in transition.actions) {
+      getAction(action)();
     }
+
+    final target = transition.target ?? state;
 
     history.add(Snapshot(
       state: target,
@@ -47,4 +48,6 @@ class Interpreter {
       machine.config.states[state]?.on[event];
   bool Function() getGuard(String guard) =>
       machine.options.guards[guard] ?? () => false;
+  void Function() getAction(String action) =>
+      machine.options.actions[action] ?? () {};
 }

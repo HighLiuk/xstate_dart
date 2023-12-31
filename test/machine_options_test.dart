@@ -22,5 +22,22 @@ void main() {
 
       expect(options.guards['someGuard']!(), isTrue);
     });
+
+    test('should correctly initialize with actions', () {
+      final actions = {'someAction': () {}};
+      final options = MachineOptions(actions: actions);
+
+      expect(options.actions, equals(actions));
+    });
+
+    test('should correctly evaluate action function', () {
+      bool actionCalled = false;
+      final actions = {'someAction': () => actionCalled = true};
+      final options = MachineOptions(actions: actions);
+
+      options.actions['someAction']!();
+
+      expect(actionCalled, isTrue);
+    });
   });
 }

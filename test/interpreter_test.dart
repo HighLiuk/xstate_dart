@@ -179,5 +179,69 @@ void main() {
 
       expect(interpreter.state, equals('someState'));
     });
+
+    test('should correctly execute actions on transition', () {
+      bool actionCalled = false;
+      final machine = Machine(
+        config: {
+          'initial': 'someState',
+          'states': {
+            'someState': {
+              'on': {
+                'event': {
+                  'target': 'someTarget',
+                  'actions': ['someAction']
+                }
+              }
+            },
+            'someTarget': {}
+          }
+        },
+        options: MachineOptions(
+          actions: {
+            'someAction': () => actionCalled = true,
+          },
+        ),
+      );
+      final interpreter = Interpreter(machine: machine);
+
+      interpreter.start();
+      expect(actionCalled, isFalse);
+
+      interpreter.send('event');
+      expect(actionCalled, isTrue);
+    });
+
+    test('should not execute actions on transition if event cannot be sent',
+        () {
+      bool actionCalled = false;
+      final machine = Machine(
+        config: {
+          'initial': 'someState',
+          'states': {
+            'someState': {
+              'on': {
+                'event': {
+                  'target': 'someTarget',
+                  'actions': ['someAction']
+                }
+              }
+            },
+            'someTarget': {}
+          }
+        },
+        options: MachineOptions(
+          actions: {
+            'someAction': () => actionCalled = true,
+          },
+        ),
+      );
+      final interpreter = Interpreter(machine: machine);
+
+      interpreter.start();
+      interpreter.send('nonexistentEvent');
+
+      expect(actionCalled, isFalse);
+    });
   });
 }

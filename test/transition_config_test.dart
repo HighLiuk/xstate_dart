@@ -57,5 +57,34 @@ void main() {
 
       expect(config.guards, equals([]));
     });
+
+    test('should correctly initialize with actions', () {
+      const actions = ['someAction'];
+      const config = TransitionConfig(target: 'someTarget', actions: actions);
+
+      expect(config.actions, equals(actions));
+    });
+
+    test('should correctly initialize from map with actions', () {
+      const actions = ['someAction'];
+      final config = TransitionConfig.fromMap({
+        'target': 'someTarget',
+        'actions': actions,
+      });
+
+      expect(config.actions, equals(actions));
+    });
+
+    test('should correctly initialize from map without actions', () {
+      final config = TransitionConfig.fromMap({'target': 'someTarget'});
+
+      expect(config.actions, equals([]));
+    });
+
+    test('should correctly initialize from string without actions', () {
+      final config = TransitionConfig.fromMap('someTarget');
+
+      expect(config.actions, equals([]));
+    });
   });
 }
